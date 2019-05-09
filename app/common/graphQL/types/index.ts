@@ -1,8 +1,9 @@
 import { mergeTypes } from 'merge-graphql-schemas';
 
 import User from './User/';
+import Food from './Food/';
 
-const typeDefs = [User];
+const typeDefs = [User, Food];
 
 // NOTE: 2nd param is optional, and defaults to false
 // Only use if you have defined the same type multiple times in

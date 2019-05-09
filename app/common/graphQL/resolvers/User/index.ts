@@ -8,31 +8,17 @@ export default {
     },
     users: async (parent, args, context, info) => {
       const users = await User.find({})
-        .populate()
+        // .populate()
         .exec();
       
-      return users.map(u => ({
-        _id: u._id.toString(),
-        firstName: u.firstName,
-        lastName: u.lastName,
-        username: u.username,
-        email: u.email,
-        age: u.age
-      }));
+      return users;
     },
     usersByUsername: async (parent, { username }, context, info) => {
       const users = await User.find({username: {$regex : `.*${username}.*`}})
-        .populate()
+        // .populate()
         .exec();
   
-      return users.map(u => ({
-        _id: u._id.toString(),
-        firstName: u.firstName,
-        lastName: u.lastName,
-        username: u.username,
-        email: u.email,
-        age: u.age
-      }));
+      return users;
     },
   },
   Mutation: {
@@ -44,16 +30,8 @@ export default {
         return user;
       else throw new Error(ErrorMessage.INVALID_LOGIN);
     },
-    createUser: async (parent, { username, password, firstName, lastName, email, age }, context, info) => {
-      
-      const newUser = await new User({
-        username: username,
-        password: password,
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        age: age
-      });
+    createUser: async (parent, { user}, context, info) => {
+      const newUser = await new User(user);
       
       return new Promise((resolve, reject) => {
         newUser.save((err, res) => {
