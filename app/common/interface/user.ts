@@ -1,10 +1,12 @@
-export class User {
+export interface IUser {
+  id: string;
+  createdDate: Date;
   username: string;
   password: string;
   email: string;
   firstName: string;
   lastName: string;
-  address: Address;
+  // address: Address;
   dob: Date;
 }
 export class Address {
@@ -14,4 +16,4 @@ export class Address {
   state: string;
   country: string;
   zipcode: string;
-}
+} 
