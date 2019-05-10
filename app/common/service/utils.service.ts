@@ -17,4 +17,5 @@ export class UtilsService {
       return protein * 4;
     } else return 0;
   }
+  static MEASUREMENTS = ['Teaspoons', 'Tablespoons', 'Fluid Ounces', 'Cups', 'Pints', 'Quarts', 'Gallons', 'Ounces', 'Pounds', 'Grams', 'Kilograms', "Liters"];
 }

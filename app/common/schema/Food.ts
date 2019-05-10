@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 import { ObjectID } from 'mongodb';
 import {Document} from 'mongoose';
+import {UtilsService} from '../service/utils.service';
 
 const Schema = mongoose.Schema;
 
@@ -27,6 +28,7 @@ const ServingSchema = new Schema({
   },
   measurement: {
     type: String,
+    enum: UtilsService.MEASUREMENTS,
     required: true
   }
 });

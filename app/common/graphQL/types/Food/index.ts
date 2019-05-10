@@ -19,6 +19,7 @@ export default `
     food(_id: ID!): Food!
     foods: [Food!]!
     foodsByName(name: String!): [Food!]!
+    measurements: [String!]!
   }
   type Mutation {
     createFood(food: CreateFoodInput!): Food!

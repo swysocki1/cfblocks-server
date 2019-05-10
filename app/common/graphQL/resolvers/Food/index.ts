@@ -21,6 +21,9 @@ export default {
       
       return foods;
     },
+    measurements: async (parent, args, context, info) => {
+      return UtilsService.MEASUREMENTS;
+    },
   },
   Mutation: {
     createFood: async (parent, { food }, context, info) => {
