@@ -8,16 +8,12 @@ export default {
       return await Food.findOne({ _id }).exec();
     },
     foods: async (parent, args, context, info) => {
-      const foods = await Food.find({})
-        .populate('servings')
-        .exec();
+      const foods = await Food.find({}).exec();
       
       return foods;
     },
     foodsByName: async (parent, { name }, context, info) => {
-      const foods = await Food.find({name: {$regex : `.*${name}.*`}})
-        .populate('servings')
-        .exec();
+      const foods = await Food.find({name: {$regex : `.*${name}.*`}}).exec();
       
       return foods;
     },
@@ -53,7 +49,7 @@ export default {
       });
     }
   },
-  Serving: {
+  Food: {
     cals : async ({ carbs, fats, protein }, args, context, info) => {
       return await UtilsService.calcCalories(carbs, fats, protein);
     }

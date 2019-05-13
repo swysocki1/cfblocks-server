@@ -1,45 +1,39 @@
 import * as mongoose from 'mongoose';
 import { ObjectID } from 'mongodb';
-import {Document} from 'mongoose';
+import {Document, Schema} from 'mongoose';
 import {UtilsService} from '../service/utils.service';
-
-const Schema = mongoose.Schema;
 
 ObjectID.prototype.valueOf = function() {
   return this.toString();
 };
 
-const FoodSchema = new Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  description: {
-    type: String
-  },
-  img: {
-    type: String
-  },
-  carbs: {
-    type: Number,
-    required: true
-  },
-  fats: {
-    type: Number,
-    required: true
-  },
-  protein: {
-    type: Number,
+
+const RecipeItemSchema = new Schema({
+  food: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Food',
     required: true
   },
   amount: {
     type: Number,
+    min: 0,
+    required: true
+  }
+});
+
+const RecipeSchema = new Schema({
+  name: {
+    type: String,
     required: true
   },
-  measurement: {
-    type: String,
-    enum: UtilsService.MEASUREMENTS,
-    required: true
+  img: {
+    type: String
+  },
+  instructions: {
+    type: String
+  },
+  ingredients: {
+    type: [RecipeItemSchema]
   },
   creator: {
     type: mongoose.Schema.Types.ObjectId,
@@ -53,4 +47,4 @@ const FoodSchema = new Schema({
   }
 });
 
-export default mongoose.model("Food", FoodSchema);
+export default mongoose.model("Recipe", RecipeSchema);

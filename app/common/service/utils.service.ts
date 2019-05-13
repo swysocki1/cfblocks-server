@@ -1,3 +1,5 @@
+import Food from '../schema/Food';
+
 export class UtilsService {
   static calcCalories(carbs: number, fats: number, protein: number) {
     return this.carbsToCals(carbs) + this.fatsToCals(fats) + this.proteinToCals(protein);
@@ -17,5 +19,27 @@ export class UtilsService {
       return protein * 4;
     } else return 0;
   }
-  static MEASUREMENTS = ['Teaspoons', 'Tablespoons', 'Fluid Ounces', 'Cups', 'Pints', 'Quarts', 'Gallons', 'Ounces', 'Pounds', 'Grams', 'Kilograms', "Liters"];
+  
+  static getCarbsFromIngredients(ingredients) {
+    let carbs = 0;
+    ingredients.forEach(ingredient => {
+      carbs += (ingredient.amount / ingredient.food.amount) * ingredient.food.carbs;
+    });
+    return carbs;
+  }
+  static getFatsFromIngredients(ingredients) {
+    let fats = 0;
+    ingredients.forEach(ingredient => {
+      fats += (ingredient.amount / ingredient.food.amount) * ingredient.food.fats;
+    });
+    return fats;
+  }
+  static getProteinFromIngredients(ingredients) {
+    let protein = 0;
+    ingredients.forEach(ingredient => {
+      protein += (ingredient.amount / ingredient.food.amount) * ingredient.food.protein;
+    });
+    return protein;
+  }
+  static MEASUREMENTS = ['', 'Teaspoons', 'Tablespoons', 'Fluid Ounces', 'Cups', 'Pints', 'Quarts', 'Gallons', 'Ounces', 'Pounds', 'Grams', 'Kilograms', "Liters"];
 }
