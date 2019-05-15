@@ -1,18 +1,57 @@
 import * as mongoose from 'mongoose';
 import { ObjectID } from 'mongodb';
-import {Document} from 'mongoose';
+import {Document, Model, model, Schema} from 'mongoose';
 import {UtilsService} from '../service/utils.service';
-
-const Schema = mongoose.Schema;
 
 ObjectID.prototype.valueOf = function() {
   return this.toString();
 };
+export class IFood {
+  name: string;
+  description?: string;
+  img?: string;
+  carbs: number;
+  fats: number;
+  protein: number;
+  amount: number;
+  measurement: string;
+  creator: string;
+  owners: string[] = [] as string[];
+  constructor(data: {
+    name: string,
+    description?: string,
+    img?: string,
+    carbs: number,
+    fats: number,
+    protein: number,
+    amount: number,
+    measurement: string,
+    creator: string,
+    owners: string[]
+  }) {
+    this.name = data.name;
+    this.description = data.description;
+    this.img = data.img;
+    this.carbs = data.carbs;
+    this.fats = data.fats;
+    this.protein = data.protein;
+    this.amount = data.amount;
+    this.measurement = data.measurement;
+    this.creator = data.measurement;
+    this.owners = data.owners;
+  }
+  
+  /* any method would be defined here*/
+  // foo(): string {
+  //   return this.name.uppercase() // whatever
+  // }
+}
 
-const FoodSchema = new Schema({
+const schema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   description: {
     type: String
@@ -38,7 +77,7 @@ const FoodSchema = new Schema({
   },
   measurement: {
     type: String,
-    enum: UtilsService.MEASUREMENTS,
+    enum: process.env.MEASUREMENTS,
     required: true
   },
   creator: {
@@ -53,4 +92,5 @@ const FoodSchema = new Schema({
   }
 });
 
-export default mongoose.model("Food", FoodSchema);
+export interface FoodDocument extends IFood, Document { }
+export const Food: Model<FoodDocument> = model<FoodDocument>("Food", schema);
