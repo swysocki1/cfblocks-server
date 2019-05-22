@@ -9,7 +9,7 @@ import {ErrorHandler} from './common/service/errorHandler.service';
 import {UserController} from './controller/user.controller';
 import {FoodController} from './controller/food.controller';
 
-export class Server {
+class Server {
   app;
   errorHandler;
   constructor() {
@@ -44,4 +44,5 @@ export class Server {
       .catch(err => console.log(err));
   }
 }
-
+const server = new Server();
+export = server.app;

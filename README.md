@@ -7,3 +7,6 @@ https://stackoverflow.com/questions/42448372/typescript-mongoose-static-model-me
 https://thinkster.io/tutorials/node-json-api/creating-the-user-model
 
 https://brianflove.com/2016/10/04/typescript-declaring-mongoose-schema-model/
+
+https://www.jeremydaly.com/reuse-database-connections-aws-lambda/
+

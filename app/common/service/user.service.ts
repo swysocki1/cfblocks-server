@@ -13,6 +13,15 @@ export class UserService {
       return await User.findOne({username: username}).exec() as UserDocument;
     } else return null;
   }
+  async getUsersLikeUsername(username: string): Promise<UserDocument[]> {
+    if (username) {
+      return await User.find({username: new RegExp(username)}).exec() as UserDocument[];
+      // return await User.find();
+    } else return [];
+  }
+  async getUsers(): Promise<UserDocument[]> {
+    return await User.find();
+  }
   async getUserByEmail(email: string): Promise<UserDocument> {
     if (email) {
       return await User.findOne({email: email}).exec() as UserDocument;
@@ -29,6 +38,8 @@ export class UserService {
   }
   async update(user: UserDocument): Promise<UserDocument> {
     if (user) {
+      if (user.password)
+        delete user.password;
       return await User.findByIdAndUpdate(user._id, { $set: { ...user } }, { new: true }).exec() as UserDocument;
     } else return null;
   }

@@ -11,7 +11,7 @@ export class UserController extends Controller {
     this.user = new UserService();
   }
   loadRoutes() {
-    this.router.get('/:id', async (req, res, next) => {
+    this.router.get('/id/:id', async (req, res, next) => {
       try {
         const user = await this.user.getUserById(req.params.id);
         if (user) {
@@ -21,10 +21,22 @@ export class UserController extends Controller {
         this.errorHandler.catchAllError(error, req, res, next);
       }
     });
-    this.router.post('/create', async (req, res, next) => {
+    this.router.get('/list', async (req, res, next) => {
       try {
-        const user = await this.user.create(req.body);
-        res.json(user);
+        const users = await this.user.getUsers();
+        if (users) {
+          res.json(users)
+        } else this.errorHandler.catchAllError(Error.NOT_FOUND, req, res, next);
+      } catch(error) {
+        this.errorHandler.catchAllError(error, req, res, next);
+      }
+    });
+    this.router.get('/list/username/:username', async (req, res, next) => {
+      try {
+        const users = await this.user.getUsersLikeUsername(req.params.username);
+        if (users) {
+          res.json(users)
+        } else this.errorHandler.catchAllError(Error.NOT_FOUND, req, res, next);
       } catch(error) {
         this.errorHandler.catchAllError(error, req, res, next);
       }

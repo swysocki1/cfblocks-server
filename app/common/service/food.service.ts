@@ -3,7 +3,7 @@ import {Error} from '../errors/errors';
 
 export class FoodService {
   constructor() { }
-  measurements = ['', 'Teaspoons', 'Tablespoons', 'Fluid Ounces', 'Cups', 'Pints', 'Quarts', 'Gallons', 'Ounces', 'Pounds', 'Grams', 'Kilograms', "Liters"];
+  static measurements = ['', 'Teaspoons', 'Tablespoons', 'Fluid Ounces', 'Cups', 'Pints', 'Quarts', 'Gallons', 'Ounces', 'Pounds', 'Grams', 'Kilograms', "Liters"];
   async getFoodById(_id: string): Promise<FoodDocument> {
     if (_id) {
       return await Food.findById(_id).exec() as FoodDocument;
@@ -18,7 +18,7 @@ export class FoodService {
     if (food) {
       const foodExists: boolean = await this.foodExists(food);
       if (!foodExists) {
-        if (this.measurements.some((measurement) => measurement === food.measurement)) {
+        if (FoodService.measurements.some((measurement) => measurement === food.measurement)) {
           const newFood = await new Food(food);
           return await Food.create(newFood) as FoodDocument;
         } else throw Error.INVALID_MEASUREMENT;

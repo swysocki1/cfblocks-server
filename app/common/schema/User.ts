@@ -43,8 +43,7 @@ const schema = new Schema({
   },
   password: {
     type: String,
-    required: true,
-    select: false
+    required: true
   },
   firstName: {
     type: String,
