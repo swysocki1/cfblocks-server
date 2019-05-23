@@ -1,12 +1,58 @@
 import * as mongoose from 'mongoose';
 import { ObjectID } from 'mongodb';
-import {Document, Schema} from 'mongoose';
-import {UtilsService} from '../service/utils.service';
+import {Document, Model, model, Schema} from 'mongoose';
+import {FoodCalcService} from '../service/food-calc.service';
+import {Food} from './Food';
 
 ObjectID.prototype.valueOf = function() {
   return this.toString();
 };
 
+export class IRecipeItem {
+  food: string;
+  amount: number;
+  constructor(item :{
+    food: string,
+    amount: number
+  }) {
+    this.food = item.food;
+    this.amount = item.amount;
+  }
+}
+
+export class IRecipe {
+  name: string;
+  img: string;
+  instructions: string;
+  ingredients: IRecipeItem[];
+  creator: string;
+  owners: string[];
+  constructor(data: {
+    name: string,
+    img: string,
+    instructions: string,
+    ingredients: IRecipeItem[],
+    creator: string,
+    owners: string[]
+  }) {
+    this.name = data.name;
+    this.img = data.img;
+    this.instructions = data.instructions;
+    this.ingredients = [];
+    if (data.ingredients) {
+      data.ingredients.forEach(ingrediant => {
+        this.ingredients.push(new IRecipeItem(ingrediant));
+      });
+    }
+    this.creator = data.creator;
+    this.owners = data.owners;
+  }
+  
+  /* any method would be defined here*/
+  // foo(): string {
+  //   return this.name.uppercase() // whatever
+  // }
+}
 
 const RecipeItemSchema = new Schema({
   food: {
@@ -45,6 +91,24 @@ const RecipeSchema = new Schema({
     ref: 'User',
     required: true
   }
+}, {
+  toObject: {virtuals: true},
+  toJSON: {virtuals: true}
+});
+RecipeSchema.virtual('carbs').get(function() {
+  // console.log('carbs: ', FoodCalcService.getCarbsFromIngredients(this.ingredients));
+  return FoodCalcService.getCarbsFromIngredients(this.ingredients);
+});
+RecipeSchema.virtual('fats').get(function() {
+  return FoodCalcService.getFatsFromIngredients(this.ingredients);
+});
+RecipeSchema.virtual('protein').get(function() {
+  return FoodCalcService.getProteinFromIngredients(this.ingredients);
+});
+RecipeSchema.virtual('calories').get(function() {
+  // return FoodCalcService.getCaloriesFromIngredients(this.ingredients);
+  return FoodCalcService.calcCalories(this.carbs, this.fats, this.protein);
 });
 
-export default mongoose.model("Recipe", RecipeSchema);
+export interface RecipeDocument extends IRecipe, Document { }
+export const Recipe: Model<RecipeDocument> = model<RecipeDocument>("Recipe", RecipeSchema);

@@ -19,4 +19,6 @@ export class Error {
   static FOOD_ALREADY_EXISTS: ErrorObject = new ErrorObject({ message: 'Food already exists.', code: 400 });
   static INVALID_MEASUREMENT: ErrorObject = new ErrorObject({ message: 'Measurement is invalid.', code: 400 });
   static USER_MISSING_REQUIRED_FIELDS: ErrorObject = new ErrorObject({ message: 'User Object is missing required value(s).', code: 400 });
+  static INVALID_MEAL: ErrorObject = new ErrorObject({ message: 'Meal is invalid', code: 400 });
+  static MEAL_ALREADY_EXISTS: ErrorObject = new ErrorObject({ message: 'Meal already exists.', code: 400 });
 }

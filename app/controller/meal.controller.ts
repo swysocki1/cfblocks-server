@@ -1,21 +1,21 @@
 import {Controller} from './controller';
-import {FoodService} from '../common/service/food.service';
+import {MealService} from '../common/service/meal.service';
 import {ErrorHandler} from '../common/service/errorHandler.service';
 import {Error} from '../common/errors/errors';
-import {FoodDocument} from '../common/schema/Food';
+import {MealDocument} from '../common/schema/Meal';
 
-export class FoodController extends Controller {
-  food: FoodService;
+export class MealController extends Controller {
+  meal: MealService;
   constructor(app, errorHandler: ErrorHandler) {
-    super(app, errorHandler, '/food');
-    this.food = new FoodService();
+    super(app, errorHandler, '/meal');
+    this.meal = new MealService();
   }
   loadRoutes() {
     this.router.get('/id/:id', async (req, res, next) => {
       try {
-        const food = await this.food.getFoodById(req.params.id);
-        if (food) {
-          res.json(food)
+        const meal = await this.meal.getMealById(req.params.id);
+        if (meal) {
+          res.json(meal)
         } else this.errorHandler.catchAllError(Error.NOT_FOUND, req, res, next);
       } catch(error) {
         this.errorHandler.catchAllError(error, req, res, next);
@@ -23,24 +23,24 @@ export class FoodController extends Controller {
     });
     this.router.post('/create', async (req, res, next) => {
       try {
-        const food = await this.food.create(req.body);
-        res.json(food);
+        const meal = await this.meal.create(req.body);
+        res.json(meal);
       } catch(error) {
         this.errorHandler.catchAllError(error, req, res, next);
       }
     });
     this.router.post('/update', async (req, res, next) => {
       try {
-        const food = await this.food.update(req.body as FoodDocument);
-        res.json(food);
+        const meal = await this.meal.update(req.body as MealDocument);
+        res.json(meal);
       } catch(error) {
         this.errorHandler.catchAllError(error, req, res, next);
       }
     });
     this.router.get('/delete/:id', async (req, res, next) => {
       try {
-        const food = await this.food.delete(req.params.id);
-        res.json(food);
+        const meal = await this.meal.delete(req.params.id);
+        res.json(meal);
       } catch(error) {
         this.errorHandler.catchAllError(error, req, res, next);
       }

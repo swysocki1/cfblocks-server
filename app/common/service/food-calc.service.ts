@@ -18,24 +18,36 @@ export class FoodCalcService {
     } else return 0;
   }
   
+  static getCaloriesFromIngredients(ingredients) {
+    return this.calcCalories(
+      this.getCarbsFromIngredients(ingredients), this.getFatsFromIngredients(ingredients), this.getProteinFromIngredients(ingredients)
+    );
+  }
   static getCarbsFromIngredients(ingredients) {
     let carbs = 0;
     ingredients.forEach(ingredient => {
-      carbs += (ingredient.amount / ingredient.food.amount) * ingredient.food.carbs;
+      console.log(typeof ingredient.food, ingredient.food);
+      if (ingredient.food && ingredient.food.amount) {
+        carbs += (ingredient.amount / ingredient.food.amount) * ingredient.food.carbs;
+      }
     });
     return carbs;
   }
   static getFatsFromIngredients(ingredients) {
     let fats = 0;
     ingredients.forEach(ingredient => {
-      fats += (ingredient.amount / ingredient.food.amount) * ingredient.food.fats;
+      if (ingredient.food && ingredient.food.amount) {
+        fats += (ingredient.amount / ingredient.food.amount) * ingredient.food.fats;
+      }
     });
     return fats;
   }
   static getProteinFromIngredients(ingredients) {
     let protein = 0;
     ingredients.forEach(ingredient => {
-      protein += (ingredient.amount / ingredient.food.amount) * ingredient.food.protein;
+      if (ingredient.food && ingredient.food.amount) {
+        protein += (ingredient.amount / ingredient.food.amount) * ingredient.food.protein;
+      }
     });
     return protein;
   }

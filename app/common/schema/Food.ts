@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 import { ObjectID } from 'mongodb';
 import {Document, Model, model, Schema} from 'mongoose';
 import {UtilsService} from '../service/utils.service';
+import {FoodCalcService} from '../service/food-calc.service';
 
 ObjectID.prototype.valueOf = function() {
   return this.toString();
@@ -77,8 +78,7 @@ const schema = new Schema({
   },
   measurement: {
     type: String,
-    enum: process.env.MEASUREMENTS,
-    required: true
+    enum: process.env.MEASUREMENTS
   },
   creator: {
     type: mongoose.Schema.Types.ObjectId,
@@ -90,6 +90,12 @@ const schema = new Schema({
     ref: 'User',
     required: true
   }
+}, {
+  toObject: {virtuals: true},
+  toJSON: {virtuals: true}
+});
+schema.virtual('calories').get(function() {
+  return FoodCalcService.calcCalories(this.carbs, this.fats, this.protein);
 });
 
 export interface FoodDocument extends IFood, Document { }

@@ -1,5 +1,6 @@
 import {Food, FoodDocument} from '../schema/Food';
 import {Error} from '../errors/errors';
+import {FoodCalcService} from './food-calc.service';
 
 export class FoodService {
   constructor() { }
