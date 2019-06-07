@@ -21,6 +21,26 @@ export class FoodController extends Controller {
         this.errorHandler.catchAllError(error, req, res, next);
       }
     });
+    this.router.get('/list/name', async (req, res, next) => {
+      try {
+        const foods = await this.food.getFoodLikeName('');
+        if (foods) {
+          res.json(foods)
+        } else this.errorHandler.catchAllError(Error.NOT_FOUND, req, res, next);
+      } catch(error) {
+        this.errorHandler.catchAllError(error, req, res, next);
+      }
+    });
+    this.router.get('/list/name/:name', async (req, res, next) => {
+      try {
+        const foods = await this.food.getFoodLikeName(req.params.name);
+        if (foods) {
+          res.json(foods)
+        } else this.errorHandler.catchAllError(Error.NOT_FOUND, req, res, next);
+      } catch(error) {
+        this.errorHandler.catchAllError(error, req, res, next);
+      }
+    });
     this.router.post('/create', async (req, res, next) => {
       try {
         const food = await this.food.create(req.body);

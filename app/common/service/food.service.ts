@@ -1,6 +1,7 @@
 import {Food, FoodDocument} from '../schema/Food';
 import {Error} from '../errors/errors';
 import {FoodCalcService} from './food-calc.service';
+import {RecipeDocument} from '../schema/Recipe';
 
 export class FoodService {
   constructor() { }
@@ -10,9 +11,15 @@ export class FoodService {
       return await Food.findById(_id).exec() as FoodDocument;
     } else return null;
   }
-  async getFoodByName(food: string): Promise<FoodDocument> {
-    if (food) {
-      return await Food.findOne({food: food}).exec() as FoodDocument;
+  async getFoodByName(name: string): Promise<FoodDocument> {
+    if (name) {
+      return await Food.findOne({name: name}).exec() as FoodDocument;
+    } else return null;
+  }
+  async getFoodLikeName(name: string): Promise<FoodDocument[]> {
+    if (name) {
+      // return await Food.find({}).populate('ingredients.food').exec() as FoodDocument[];
+      return await Food.find({name: new RegExp(name)}).populate('ingredients.food').exec() as FoodDocument[];
     } else return null;
   }
   async create(food: any): Promise<FoodDocument> {

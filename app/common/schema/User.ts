@@ -68,4 +68,4 @@ const schema = new Schema({
 // UserSchema.method('foo', User.prototype.foo)
 
 export interface UserDocument extends IUser, Document { }
-export const User: Model<UserDocument> = model<UserDocument>("User", schema);
+export const User: Model<UserDocument> = model<UserDocument>("User", schema, "User");

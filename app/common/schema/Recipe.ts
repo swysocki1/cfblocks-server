@@ -22,20 +22,27 @@ export class IRecipeItem {
 
 export class IRecipe {
   name: string;
+  description: string;
   img: string;
   instructions: string;
   ingredients: IRecipeItem[];
+  amount: number;
+  measurement: string;
   creator: string;
   owners: string[];
   constructor(data: {
     name: string,
+    description: string,
     img: string,
     instructions: string,
     ingredients: IRecipeItem[],
+    amount: number,
+    measurement: string,
     creator: string,
     owners: string[]
   }) {
     this.name = data.name;
+    this.description = data.description;
     this.img = data.img;
     this.instructions = data.instructions;
     this.ingredients = [];
@@ -44,6 +51,8 @@ export class IRecipe {
         this.ingredients.push(new IRecipeItem(ingrediant));
       });
     }
+    this.amount = data.amount;
+    this.measurement = data.measurement;
     this.creator = data.creator;
     this.owners = data.owners;
   }
@@ -72,6 +81,10 @@ const RecipeSchema = new Schema({
     type: String,
     required: true
   },
+  description: {
+    type: String,
+    required: true
+  },
   img: {
     type: String
   },
@@ -80,6 +93,14 @@ const RecipeSchema = new Schema({
   },
   ingredients: {
     type: [RecipeItemSchema]
+  },
+  amount: {
+    type: Number,
+    required: true
+  },
+  measurement: {
+    type: String,
+    enum: process.env.MEASUREMENTS
   },
   creator: {
     type: mongoose.Schema.Types.ObjectId,
@@ -96,7 +117,7 @@ const RecipeSchema = new Schema({
   toJSON: {virtuals: true}
 });
 RecipeSchema.virtual('carbs').get(function() {
-  // console.log('carbs: ', FoodCalcService.getCarbsFromIngredients(this.ingredients));
+  console.log('carbs: ', FoodCalcService.getCarbsFromIngredients(this.ingredients));
   return FoodCalcService.getCarbsFromIngredients(this.ingredients);
 });
 RecipeSchema.virtual('fats').get(function() {
@@ -111,4 +132,4 @@ RecipeSchema.virtual('calories').get(function() {
 });
 
 export interface RecipeDocument extends IRecipe, Document { }
-export const Recipe: Model<RecipeDocument> = model<RecipeDocument>("Recipe", RecipeSchema);
+export const Recipe: Model<RecipeDocument> = model<RecipeDocument>("Recipe", RecipeSchema, "Food");

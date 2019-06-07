@@ -51,8 +51,7 @@ export class IFood {
 const schema = new Schema({
   name: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   description: {
     type: String
@@ -99,4 +98,4 @@ schema.virtual('calories').get(function() {
 });
 
 export interface FoodDocument extends IFood, Document { }
-export const Food: Model<FoodDocument> = model<FoodDocument>("Food", schema);
+export const Food: Model<FoodDocument> = model<FoodDocument>("Food", schema, "Food");

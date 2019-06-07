@@ -52,4 +52,4 @@ const MealSchema = new Schema({
 });
 
 export interface MealDocument extends IMeal, Document { }
-export const Meal: Model<MealDocument> = model<MealDocument>("Meal", MealSchema);
+export const Meal: Model<MealDocument> = model<MealDocument>("Meal", MealSchema, "Meal");
