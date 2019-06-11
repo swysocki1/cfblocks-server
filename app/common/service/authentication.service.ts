@@ -1,16 +1,16 @@
-import {UserDocument, User} from '../schema/User';
-import {Error} from '../errors/errors';
-import {EncryptSerice} from './encrypt.serice';
-import {UserService} from './user.service';
+import { UserDocument, User } from "../schema/User";
+import { Error } from "../errors/errors";
+import { EncryptSerice } from "./encrypt.serice";
+import { UserService } from "./user.service";
 
 export class AuthenticationService {
   crypto: EncryptSerice = new EncryptSerice();
   userService: UserService = new UserService();
-  constructor() { }
+  constructor() {}
   async authenticate(username, password) {
-    let user: UserDocument = await User.findOne({username: username});
-    const decryptPassword = this.crypto.decrypt(user.password);
+    let user: UserDocument = await User.findOne({ username: username });
     if (user) {
+      const decryptPassword = this.crypto.decrypt(user.password);
       if (decryptPassword === password) {
         user = user.toObject();
         delete user.password;
@@ -25,6 +25,6 @@ export class AuthenticationService {
       user = user.toObject();
       delete user.password;
       return user;
-    } else throw Error.USER_MISSING_REQUIRED_FIELDS
+    } else throw Error.USER_MISSING_REQUIRED_FIELDS;
   }
 }
