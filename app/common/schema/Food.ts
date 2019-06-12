@@ -15,7 +15,8 @@ const baseOptions = {
   discriminatorKey: "type", // our discriminator key, could be anything
   collection: "Food", // the name of our collection
   toObject: { virtuals: true },
-  toJSON: { virtuals: true }
+  toJSON: { virtuals: true },
+  timestamps: { createdAt: "created", updatedAt: "lastUpdated" }
 };
 
 // Our Base schema: these properties will be shared with our "real" schemas
@@ -77,12 +78,14 @@ const rawFoodSchema = new mongoose.Schema(
   },
   {
     toObject: { virtuals: true },
-    toJSON: { virtuals: true }
+    toJSON: { virtuals: true },
+    timestamps: { createdAt: "created", updatedAt: "lastUpdated" }
   }
 );
 rawFoodSchema.virtual("calories").get(function() {
   return FoodCalcService.calcCalories(this.carbs, this.fats, this.protein);
 });
+
 export const RawFood: Model<FoodDocument> = FoodBase.discriminator<
   FoodDocument
 >("RawFood", rawFoodSchema);
@@ -111,7 +114,8 @@ const recipeSchema = new mongoose.Schema(
   },
   {
     toObject: { virtuals: true },
-    toJSON: { virtuals: true }
+    toJSON: { virtuals: true },
+    timestamps: { createdAt: "created", updatedAt: "lastUpdated" }
   }
 );
 recipeSchema.virtual("calories").get(function() {

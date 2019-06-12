@@ -32,7 +32,6 @@ class Server {
     new AuthenticationController(this.app, this.errorHandler);
     new UserController(this.app, this.errorHandler);
     new FoodController(this.app, this.errorHandler);
-    // new RecipeController(this.app, this.errorHandler);
     new MealController(this.app, this.errorHandler);
   }
   connectMongoDB() {

@@ -22,7 +22,9 @@ export class FoodService {
   ];
   async getFoodById(_id: string): Promise<FoodDocument> {
     if (_id) {
-      return (await Food.findById(_id).exec()) as FoodDocument;
+      return (await Food.findById(_id)
+        .populate("ingredients.food")
+        .exec()) as FoodDocument;
     } else return null;
   }
   async getAll(): Promise<FoodDocument[]> {
