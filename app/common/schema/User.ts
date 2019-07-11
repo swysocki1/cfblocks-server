@@ -9,17 +9,17 @@ ObjectID.prototype.valueOf = function() {
 export class IUser {
   username: string;
   password: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  age: number;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  age?: number;
   constructor(data: {
     username: string,
     password: string,
-    firstName: string,
-    lastName: string,
+    firstName?: string,
+    lastName?: string,
     email: string,
-    age: number
+    age?: number
   }) {
     this.username = data.username;
     this.password = data.password;
@@ -46,12 +46,10 @@ const schema = new Schema({
     required: true
   },
   firstName: {
-    type: String,
-    required: true
+    type: String
   },
   lastName: {
-    type: String,
-    required: true
+    type: String
   },
   email: {
     type: String,
@@ -59,8 +57,7 @@ const schema = new Schema({
     required: true
   },
   age: {
-    type: Number,
-    required: true
+    type: Number
   }
 });
 
