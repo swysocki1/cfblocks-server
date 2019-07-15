@@ -19,7 +19,7 @@ export class IUser {
     firstName: string,
     lastName: string,
     email: string,
-    age: number
+    age?: number
   }) {
     this.username = data.username;
     this.password = data.password;
@@ -59,8 +59,7 @@ const schema = new Schema({
     required: true
   },
   age: {
-    type: Number,
-    required: true
+    type: Number
   }
 });
 

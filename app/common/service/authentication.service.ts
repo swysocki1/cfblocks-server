@@ -23,6 +23,7 @@ export class AuthenticationService {
       newUser.password = this.crypto.encrypt(newUser.password);
       let user = await this.userService.create(newUser);
       user = user.toObject();
+      console.log(user);
       delete user.password;
       return user;
     } else throw Error.USER_MISSING_REQUIRED_FIELDS;
