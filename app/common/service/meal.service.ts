@@ -1,25 +1,37 @@
-import {Meal, MealDocument} from '../schema/Meal';
-import {Error,ErrorObject} from '../errors/errors';
+import { Meal, MealDocument } from "../schema/Meal";
+import { Error, ErrorObject } from "../errors/errors";
 
 export class MealService {
-  constructor() { }
+  constructor() {}
   async getMealById(_id: string): Promise<MealDocument> {
     if (_id) {
-      return await Meal.findById(_id).exec() as MealDocument;
+      return (await Meal.findById(_id).exec()) as MealDocument;
     } else return null;
   }
-  async getMeals(user?: string, startDate?: Date, endDate?: Date): Promise<MealDocument[]> {
+  async getMeals(
+    user?: string,
+    startDate?: Date,
+    endDate?: Date
+  ): Promise<MealDocument[]> {
     let query = Meal.find();
     if (user) {
-      query = query.find({eatenBy: user});
+      query = query.find({ eatenBy: user });
     }
     if (startDate) {
-      query = query.find({eatenDate: {$gte: startDate}});
+      query = query.find({ eatenDate: { $gte: startDate } });
     }
     if (endDate) {
-      query = query.find({eatenDate: {$lte: endDate}});
+      query = query.find({ eatenDate: { $lte: endDate } });
     }
-    return await query.exec();
+    return await query
+      .populate({
+        path: "food",
+        populate: {
+          path: "ingredients.food",
+          model: "Food"
+        }
+      })
+      .exec();
   }
   async create(meal: any): Promise<MealDocument> {
     if (meal) {
@@ -27,7 +39,7 @@ export class MealService {
         const mealExists: boolean = await this.mealExists(meal);
         if (!mealExists) {
           const newMeal = await new Meal(meal);
-          return await Meal.create(newMeal) as MealDocument;
+          return (await Meal.create(newMeal)) as MealDocument;
         }
         throw Error.MEAL_ALREADY_EXISTS;
       } else throw Error.INVALID_MEAL;
@@ -36,13 +48,17 @@ export class MealService {
   async update(meal: MealDocument): Promise<MealDocument> {
     if (meal) {
       if (meal.food || meal.recipe) {
-        return await Meal.findByIdAndUpdate(meal._id, {$set: {...meal}}, {new: true}).exec() as MealDocument;
+        return (await Meal.findByIdAndUpdate(
+          meal._id,
+          { $set: { ...meal } },
+          { new: true }
+        ).exec()) as MealDocument;
       } else throw Error.INVALID_MEAL;
     } else return null;
   }
   async delete(_id: string): Promise<MealDocument> {
     if (_id) {
-      return await Meal.findByIdAndDelete(_id).exec() as MealDocument;
+      return (await Meal.findByIdAndDelete(_id).exec()) as MealDocument;
     } else return null;
   }
   async mealExists(meal: MealDocument): Promise<boolean> {

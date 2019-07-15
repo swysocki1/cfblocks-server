@@ -1,15 +1,15 @@
 // lib/app.ts
-import * as express from 'express';
-import * as cors from 'cors';
-import * as mongoose from 'mongoose';
-import * as bodyParser from 'body-parser';
-import {Controller} from './controller/controller';
-import {AuthenticationController} from './controller/authentication.controller';
-import {ErrorHandler} from './common/service/errorHandler.service';
-import {UserController} from './controller/user.controller';
-import {FoodController} from './controller/food.controller';
-import {RecipeController} from './controller/recipe.controller';
-import {MealController} from './controller/meal.controller';
+import * as express from "express";
+import * as cors from "cors";
+import * as mongoose from "mongoose";
+import * as bodyParser from "body-parser";
+import { Controller } from "./controller/controller";
+import { AuthenticationController } from "./controller/authentication.controller";
+import { ErrorHandler } from "./common/service/errorHandler.service";
+import { UserController } from "./controller/user.controller";
+import { FoodController } from "./controller/food.controller";
+// import { RecipeController } from "./controller/recipe.controller";
+import { MealController } from "./controller/meal.controller";
 
 class Server {
   app;
@@ -32,18 +32,14 @@ class Server {
     new AuthenticationController(this.app, this.errorHandler);
     new UserController(this.app, this.errorHandler);
     new FoodController(this.app, this.errorHandler);
-    new RecipeController(this.app, this.errorHandler);
     new MealController(this.app, this.errorHandler);
   }
   connectMongoDB() {
     mongoose
-      .connect(
-        process.env.MONGO_DB_URI,
-        {
-          useCreateIndex: true,
-          useNewUrlParser: true
-        }
-      )
+      .connect(process.env.MONGO_DB_URI, {
+        useCreateIndex: true,
+        useNewUrlParser: true
+      })
       .then(() => console.log("MongoDB connected"))
       .catch(err => console.log(err));
   }

@@ -10,3 +10,6 @@ https://brianflove.com/2016/10/04/typescript-declaring-mongoose-schema-model/
 
 https://www.jeremydaly.com/reuse-database-connections-aws-lambda/
 
+https://dev.to/helenasometimes/getting-started-with-mongoose-discriminators-in-expressjs--22m9
+
+https://www.nutritionix.com -- FOOD Database API

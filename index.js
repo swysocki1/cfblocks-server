@@ -1,17 +1,15 @@
-'use strict';
-const awsServerlessExpress = require('aws-serverless-express');
-const app = require('./app/server');
+"use strict";
+const awsServerlessExpress = require("aws-serverless-express");
+const app = require("./app/server");
 const binaryMimeTypes = [
-  'application/octet-stream',
-  'font/eot',
-  'font/opentype',
-  'font/otf',
-  'image/jpeg',
-  'image/png',
-  'image/svg+xml'
+  "application/octet-stream",
+  "font/eot",
+  "font/opentype",
+  "font/otf",
+  "image/jpeg",
+  "image/png",
+  "image/svg+xml"
 ];
-const server = awsServerlessExpress
-  .createServer(app, null, binaryMimeTypes);
+const server = awsServerlessExpress.createServer(app, null, binaryMimeTypes);
 exports.handler = (event, context) =>
-  awsServerlessExpress.proxy(server, event, context
-  );
+  awsServerlessExpress.proxy(server, event, context);
