@@ -51,6 +51,9 @@ const FoodBase = mongoose.model(
         type: [mongoose.Schema.Types.ObjectId],
         ref: "User",
         required: true
+      },
+      tags: {
+        type: [String]
       }
     },
     baseOptions
@@ -118,8 +121,8 @@ const recipeSchema = new mongoose.Schema(
     timestamps: { createdAt: "created", updatedAt: "lastUpdated" }
   }
 );
-recipeSchema.virtual("calories").get(function() {
-  return FoodCalcService.calcCalories(this.carbs, this.fats, this.protein);
+recipeSchema.virtual("carbs").get(function() {
+  return FoodCalcService.getCarbsFromIngredients(this.ingredients);
 });
 recipeSchema.virtual("fats").get(function() {
   return FoodCalcService.getFatsFromIngredients(this.ingredients);

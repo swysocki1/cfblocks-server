@@ -6,6 +6,7 @@ export class IFood {
   measurement: string;
   creator: string;
   owners: string[] = [] as string[];
+  tags: string[] = [] as string[];
   constructor(data: any) {
     this.name = data.name;
     this.description = data.description;
